@@ -1,0 +1,2 @@
+graft photomatron/ui/resources
+include photomatron/activities/photobooth/*.png

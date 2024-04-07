@@ -1,0 +1,8 @@
+Qt.py
+picamera
+requests
+qrcode
+pywifi
+# install below manually (see readme.md)
+# pyside2
+# guibedos

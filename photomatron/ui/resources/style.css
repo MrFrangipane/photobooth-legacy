@@ -1,0 +1,273 @@
+/* GUI Bedos - CSS Template */
+/****************************/
+
+/* VARIABLES
+{}
+/****************************/
+
+/* TEMPLATE
+/* CSS *|
+* {
+    color: white;
+    background: black;
+    text-align: center;
+    qproperty-alignment: AlignCenter;
+}
+
+QLabel[style="title"] {
+    font-size: 50px;
+    font-family: coolvetica;
+    qproperty-alignment: AlignLeft;
+}
+
+QLabel[style="message-title"] {
+    font-size: 40px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+QLabel[style="message"] {
+    font-size: 30px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+QLabel[style="message-large"] {
+    font-size: 100px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+QLabel[style="message-small"] {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px;
+}
+
+/* Large buttons *|
+QPushButton[style="large"] {
+    font-size: 30px;
+    border: 2px solid white;
+    border-radius: 4px;
+    width: 242px;
+    height: 80px;
+}
+
+QPushButton[style="large"]::pressed {
+    color: black;
+    background-color: white;
+}
+
+QPushButton[style="medium"] {
+    font-size: 25px;
+    border: 2px solid white;
+    border-radius: 4px;
+    width: 242px;
+    height: 50px;
+}
+
+QPushButton[style="medium"]::pressed {
+    color: black;
+    background-color: white;
+}
+
+QLineEdit {
+    text-align: left;
+    qproperty-alignment: AlignLeft;
+}
+
+*[style="small"] {
+    font-size: 15px;
+    border: 2px solid white;
+    border-radius: 4px;
+    width: 100px;
+    height: 30px;
+}
+
+QLabel[style="small"] {
+    border: 0 solid white;
+}
+
+QPushButton[style="small"]::pressed {
+    color: black;
+    background-color: white;
+}
+
+*:disabled {
+    color: grey;
+    border: 2px solid grey;
+}
+
+/* Checkboxes *|
+QCheckBox {
+    font-size: 30px;
+    border: 0px solid;
+    width: 242px;
+    height: 80px;
+}
+
+QCheckBox::indicator {
+    border: 2px solid white;
+    border-radius: 4px;
+    width: 40px;
+    height: 40px;
+}
+
+QCheckBox::indicator:checked {
+    background-color: white;
+}
+
+/* Wifi *|
+QLabel[style="wifi"] {
+    qproperty-alignment: AlignRight;
+}
+
+QLabel[style="wifi-waiting"] {
+    background-color: black;
+    border-color: rgba(255, 255, 255, 255);
+    border-width: 1px;
+    border-style: solid;
+}
+
+QLabel[style="wifi-ok"] {
+    background-color: rgba(0, 255, 0, 255);
+}
+
+QLabel[style="wifi-error"] {
+    background-color: rgba(255, 0, 0, 255);
+}
+
+/****************************/
+
+/* ACTUAL CSS */
+
+/* CSS */
+* {
+    color: white;
+    background: black;
+    text-align: center;
+    qproperty-alignment: AlignCenter;
+}
+
+QLabel[style="title"] {
+    font-size: 50px;
+    font-family: coolvetica;
+    qproperty-alignment: AlignLeft;
+}
+
+QLabel[style="message-title"] {
+    font-size: 40px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+QLabel[style="message"] {
+    font-size: 30px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+QLabel[style="message-large"] {
+    font-size: 100px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+QLabel[style="message-small"] {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px;
+}
+
+/* Large buttons */
+QPushButton[style="large"] {
+    font-size: 30px;
+    border: 2px solid white;
+    border-radius: 4px;
+    width: 242px;
+    height: 80px;
+}
+
+QPushButton[style="large"]::pressed {
+    color: black;
+    background-color: white;
+}
+
+QPushButton[style="medium"] {
+    font-size: 25px;
+    border: 2px solid white;
+    border-radius: 4px;
+    width: 242px;
+    height: 50px;
+}
+
+QPushButton[style="medium"]::pressed {
+    color: black;
+    background-color: white;
+}
+
+QLineEdit {
+    text-align: left;
+    qproperty-alignment: AlignLeft;
+}
+
+*[style="small"] {
+    font-size: 15px;
+    border: 2px solid white;
+    border-radius: 4px;
+    width: 100px;
+    height: 30px;
+}
+
+QLabel[style="small"] {
+    border: 0 solid white;
+}
+
+QPushButton[style="small"]::pressed {
+    color: black;
+    background-color: white;
+}
+
+*:disabled {
+    color: grey;
+    border: 2px solid grey;
+}
+
+/* Checkboxes */
+QCheckBox {
+    font-size: 30px;
+    border: 0px solid;
+    width: 242px;
+    height: 80px;
+}
+
+QCheckBox::indicator {
+    border: 2px solid white;
+    border-radius: 4px;
+    width: 40px;
+    height: 40px;
+}
+
+QCheckBox::indicator:checked {
+    background-color: white;
+}
+
+/* Wifi */
+QLabel[style="wifi"] {
+    qproperty-alignment: AlignRight;
+}
+
+QLabel[style="wifi-waiting"] {
+    background-color: black;
+    border-color: rgba(255, 255, 255, 255);
+    border-width: 1px;
+    border-style: solid;
+}
+
+QLabel[style="wifi-ok"] {
+    background-color: rgba(0, 255, 0, 255);
+}
+
+QLabel[style="wifi-error"] {
+    background-color: rgba(255, 0, 0, 255);
+}
