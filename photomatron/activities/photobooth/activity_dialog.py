@@ -56,7 +56,10 @@ class PhotoboothActivityDialog(QtWidgets.QWidget):
 
     def set_image(self, image_filepath):
         self.message.setVisible(True)
-        self.message.setPixmap(QtGui.QPixmap(image_filepath))
+        self.message.setPixmap(
+            QtGui.QPixmap(image_filepath).scaledToWidth(
+                150, QtCore.Qt.SmoothTransformation
+            ))
         QtWidgets.QApplication.processEvents()
 
     def keyPressEvent(self, event):
