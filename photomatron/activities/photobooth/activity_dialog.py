@@ -58,7 +58,7 @@ class PhotoboothActivityDialog(QtWidgets.QWidget):
         self.message.setVisible(True)
         self.message.setPixmap(
             QtGui.QPixmap(image_filepath).scaledToWidth(
-                100, QtCore.Qt.SmoothTransformation
+                200, QtCore.Qt.SmoothTransformation
             ))
         QtWidgets.QApplication.processEvents()
 
