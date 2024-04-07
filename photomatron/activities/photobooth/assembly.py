@@ -17,6 +17,7 @@ def assemble(photo_filepath, foreground_filepath, assembly_filepath):
 
     foreground = QtGui.QPixmap(foreground_filepath)
     photo = QtGui.QPixmap(photo_filepath)
+    photo = photo.transformed(QtGui.QTransform().scale(-1, 1))
 
     canvas = QtGui.QPixmap(foreground.size())
     canvas.fill(QtCore.Qt.transparent)

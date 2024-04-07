@@ -14,6 +14,7 @@ from .configuration_dialog import PhotoboothConfigurationDialog
 from .assembly import assemble
 from .qrcode_maker import make_qr_code
 from .cloud import Cloud
+from photomatron.ui.extensions import warning_messagebox
 
 
 PRINTER = "Canon_SELPHY_CP1300"
@@ -59,13 +60,11 @@ class PhotoboothActivity:
         self.raspberry_pi.camera.set_geometry(x, y + offset, w, height)
 
     def show_configuration_dialog(self):
+        if not os.path.exists(os.path.join(self.working_folder, "foreground.png")):
+            warning_messagebox("No foreground image found", "No foreground image")
+            return False
+
         return True
-        #
-        # self.cloud_upload_enabled = (
-        #     self.cloud_upload_enabled and self.raspberry_pi.wifi_status.status == WifiStatus.CONNECTED
-        # )
-        #
-        # return self.configuration_dialog.exec()
 
     def exec_(self):
         self.dialog.show()

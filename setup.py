@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 
 NAME = 'photomatron'
-VERSION = '0.0.98'
+VERSION = '0.0.99'
 DESCRIPTION = 'Photobooth for Raspberry Pi 3'
 AUTHOR = 'Frangitron'
 AUTHOR_EMAIL = 'contact@frangitron.com'
@@ -32,7 +32,7 @@ setup(
     include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3 :: Only",
-        "Programming Language :: Python :: 3.10"
+        "Programming Language :: Python :: 3.7"
     ],
-    python_requires='>3.6, <3.11',
+    python_requires='>3.6, <3.8',
 )

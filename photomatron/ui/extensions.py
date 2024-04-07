@@ -54,6 +54,16 @@ def confirmation_messagebox(message, title, icon, parent=None):
     return result
 
 
+def warning_messagebox(message, title, parent=None):
+    _message_box = QMessageBox(parent)
+    _message_box.setIcon(QMessageBox.Icon.Warning)
+    _message_box.setWindowTitle(title)
+    _message_box.setText(message)
+    _message_box.setStandardButtons(QMessageBox.Ok)
+
+    _message_box.exec_()
+
+
 T = TypeVar('T')
 
 

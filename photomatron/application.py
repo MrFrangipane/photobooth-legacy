@@ -69,7 +69,7 @@ class Application:
     def update(self):
         with guibedos.helpers.Hourglass(self.window):
             output_text = subprocess.check_output([
-                '/usr/bin/python3', '-m', 'pip', 'install', 'git+https://gitlab.com/mrfrangipane/photomatron.git'
+                '/usr/bin/python3', '-m', 'pip', 'install', 'git+https://github.com/MrFrangipane/photobooth-legacy.git'
             ]).decode()
             with open(self._install_log_filepath, 'w') as log_file:
                 log_file.write(datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S"))
