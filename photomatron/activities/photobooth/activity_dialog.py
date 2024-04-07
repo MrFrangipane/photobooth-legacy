@@ -1,5 +1,5 @@
 import guibedos.helpers
-from PySide2 import QtCore
+from PySide2 import QtCore, QtGui
 from PySide2 import QtWidgets
 
 from photomatron.ui.camera_overlay_placeholder import CameraOverlayPlaceholder
@@ -48,9 +48,15 @@ class PhotoboothActivityDialog(QtWidgets.QWidget):
         QtWidgets.QApplication.processEvents()
 
     def set_message(self, message, style='message'):
+        self.message.setPixmap(QtGui.QPixmap())
         self.message.setVisible(bool(message))
         self.message.setText(message)
         guibedos.helpers.set_style_property(self.message, style)
+        QtWidgets.QApplication.processEvents()
+
+    def set_image(self, image_filepath):
+        self.message.setVisible(True)
+        self.message.setPixmap(QtGui.QPixmap(image_filepath))
         QtWidgets.QApplication.processEvents()
 
     def keyPressEvent(self, event):

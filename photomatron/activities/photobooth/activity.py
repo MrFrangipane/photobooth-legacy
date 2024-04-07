@@ -101,6 +101,11 @@ class PhotoboothActivity:
         self.dialog.set_title(f"Please wait...")
 
         uid = "".join(secrets.choice(string.ascii_lowercase) for i in range(8))
+
+        url = f"{CLOUD_URL.strip('/')}/{uid}"
+        qr_code_filepath = os.path.join(self.working_folder, QR_CODE_TEMP_FILENAME)
+        make_qr_code(data=url, jpg_filepath=qr_code_filepath, draw_logo=False)
+
         foreground_filepath = os.path.join(self.working_folder, FOREGROUND)
         assembly_filepath = os.path.join(self.working_folder, now + "assembled_" + uid + '.jpg')
         assemble(photo_filepath, foreground_filepath, assembly_filepath)
@@ -111,10 +116,7 @@ class PhotoboothActivity:
         # TODO: upload queue in a different thread (process ?)
         if self.cloud_upload_enabled:
             cloud = Cloud(CLOUD_CREDENTIALS_FILE)
-            cloud.post(
-                given_uid=uid,
-                filepath=assembly_filepath
-            )
+            cloud.post(given_uid=uid, filepath=assembly_filepath)
 
         if self.selphy_print_enabled:
             print_start_timestamp = time.time()
@@ -122,12 +124,10 @@ class PhotoboothActivity:
             self.raspberry_pi.print(assembly_filepath, PRINTER)
 
         if self.thermal_print_enabled:
-            url = f"{CLOUD_URL.strip('/')}/{uid}"
-            make_qr_code(
-                data=url,
-                jpg_filepath=os.path.join(self.working_folder, QR_CODE_TEMP_FILENAME),
-                draw_logo=False
-            )
+            self.dialog.set_title(f"Please wait...")
+            if self.cloud_upload_enabled:
+                self.dialog.set_image(qr_code_filepath)
+
             self.raspberry_pi.thermal_print(os.path.join(self.working_folder, QR_CODE_TEMP_FILENAME))
             self.raspberry_pi.thermal_print(1)
             self.raspberry_pi.thermal_print(uid, double_size=True)
