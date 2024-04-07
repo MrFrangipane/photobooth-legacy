@@ -124,9 +124,11 @@ class PhotoboothActivity:
             self.raspberry_pi.print(assembly_filepath, PRINTER)
 
         if self.thermal_print_enabled:
-            self.dialog.set_title(f"Please wait...")
             if self.cloud_upload_enabled:
                 self.dialog.set_image(qr_code_filepath)
+                self.dialog.set_title(f"Scan me !")
+            else:
+                self.dialog.set_title(f"Please wait...")
 
             self.raspberry_pi.thermal_print(os.path.join(self.working_folder, QR_CODE_TEMP_FILENAME))
             self.raspberry_pi.thermal_print(1)
