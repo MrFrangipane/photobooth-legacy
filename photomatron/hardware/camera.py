@@ -40,8 +40,8 @@ class Camera:
 
     def capture(self, filepath):
         time.sleep(CAPTURE_SLEEP)
-        self.camera.saturation = min(100, self.camera.saturation + OVER_SATURATION)
-        self.camera.brightness = min(100, self.camera.brightness + OVER_BRIGHTNESS)
+        # self.camera.saturation = min(100, self.camera.saturation + OVER_SATURATION)
+        # self.camera.brightness = min(100, self.camera.brightness + OVER_BRIGHTNESS)
 
         self.camera.capture(filepath)
         self.camera.close()
