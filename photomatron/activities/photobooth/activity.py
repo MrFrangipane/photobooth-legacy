@@ -19,7 +19,8 @@ from photomatron.ui.extensions import warning_messagebox
 
 PRINTER = "Canon_SELPHY_CP1300"
 FOREGROUND = 'foreground.png'
-PRINT_TIME = 80
+PRINT_TIME_SELPHY = 80
+PRINT_TIME_THERMAL = 20
 QR_CODE_TEMP_FILENAME = "qr-code-temp.jpg"
 THERMAL_TEMP_FILENAME = "termal-temp.jpg"
 MANUAL_URL = "photobooth.frangitron.com"
@@ -118,12 +119,16 @@ class PhotoboothActivity:
             cloud = Cloud(CLOUD_CREDENTIALS_FILE)
             cloud.post(given_uid=uid, filepath=assembly_filepath)
 
+        print_start_timestamp = time.time()
+        print_time = 0
+
         if self.selphy_print_enabled:
-            print_start_timestamp = time.time()
+            print_time += PRINT_TIME_SELPHY
             self.dialog.set_title(f"Printing...")
             self.raspberry_pi.print(assembly_filepath, PRINTER)
 
         if self.thermal_print_enabled:
+            print_time += PRINT_TIME_THERMAL
             if self.cloud_upload_enabled:
                 self.dialog.set_image(qr_code_filepath)
                 self.dialog.set_title(f"Scan me !")
@@ -150,8 +155,8 @@ class PhotoboothActivity:
             self.raspberry_pi.thermal_print("by Frangitron")
             self.raspberry_pi.thermal_print(4)
 
-        if self.selphy_print_enabled:
-            time_left = PRINT_TIME - int(time.time() - print_start_timestamp)
+        if self.selphy_print_enabled or self.thermal_print_enabled:
+            time_left = print_time - int(time.time() - print_start_timestamp)
             if time_left > 0:
                 for seconds_left in range(time_left, 0, -1):
                     self.dialog.set_message(f"{seconds_left}", 'message-large')
