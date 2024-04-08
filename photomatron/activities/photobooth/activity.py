@@ -136,10 +136,10 @@ class PhotoboothActivity:
                 self.dialog.set_title(f"Please wait...")
 
             self.raspberry_pi.thermal_print(os.path.join(self.working_folder, QR_CODE_TEMP_FILENAME))
-            self.raspberry_pi.thermal_print(1)
-            self.raspberry_pi.thermal_print(uid, double_size=True)
-            self.raspberry_pi.thermal_print(MANUAL_URL)
-            self.raspberry_pi.thermal_print(1)
+            # self.raspberry_pi.thermal_print(1)
+            # self.raspberry_pi.thermal_print(uid, double_size=True)
+            # self.raspberry_pi.thermal_print(MANUAL_URL)
+            # self.raspberry_pi.thermal_print(1)
 
             if self.thermal_print_image_enabled:
                 assembly = QPixmap(assembly_filepath)
@@ -150,10 +150,10 @@ class PhotoboothActivity:
                 assembly.save(os.path.join(self.working_folder, THERMAL_TEMP_FILENAME), "jpg", 100)
 
                 self.raspberry_pi.thermal_print(os.path.join(self.working_folder, THERMAL_TEMP_FILENAME))
-
-            self.raspberry_pi.thermal_print(2)
-            self.raspberry_pi.thermal_print("by Frangitron")
-            self.raspberry_pi.thermal_print(4)
+            #
+            # self.raspberry_pi.thermal_print(2)
+            # self.raspberry_pi.thermal_print("by Frangitron")
+            # self.raspberry_pi.thermal_print(4)
 
         if self.selphy_print_enabled or self.thermal_print_enabled:
             time_left = print_time - int(time.time() - print_start_timestamp)
