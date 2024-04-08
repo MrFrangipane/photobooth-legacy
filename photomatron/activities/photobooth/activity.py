@@ -20,7 +20,7 @@ from photomatron.ui.extensions import warning_messagebox
 PRINTER = "Canon_SELPHY_CP1300"
 FOREGROUND = 'foreground.png'
 PRINT_TIME_SELPHY = 80
-PRINT_TIME_THERMAL = 20
+PRINT_TIME_THERMAL = 35
 QR_CODE_TEMP_FILENAME = "qr-code-temp.jpg"
 THERMAL_TEMP_FILENAME = "termal-temp.jpg"
 MANUAL_URL = "photobooth.frangitron.com"
@@ -159,7 +159,8 @@ class PhotoboothActivity:
             time_left = print_time - int(time.time() - print_start_timestamp)
             if time_left > 0:
                 for seconds_left in range(time_left, 0, -1):
-                    self.dialog.set_message(f"{seconds_left}", 'message-large')
+                    if not self.thermal_print_enabled:
+                        self.dialog.set_message(f"{seconds_left}", 'message-large')
                     time.sleep(1)
 
         self.reset()
