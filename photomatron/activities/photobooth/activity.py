@@ -28,19 +28,29 @@ CLOUD_URL = f"https://{MANUAL_URL}/retrieve"
 CLOUD_CREDENTIALS_FILE = os.path.dirname(__file__) + '/cloud-credentials.json'
 
 
+class PhotoboothConfiguration:
+    def __init__(self):
+        self.photo_mode = None
+        self.cloud_upload_enabled = None
+        self.selphy_print_enabled = None
+        self.thermal_print_enabled = None
+        self.thermal_print_image_enabled = None
+
+
 class PhotoboothActivity:
 
-    def __init__(self, app, raspberry_pi, parent_window, working_folder):
+    def __init__(self, app, raspberry_pi, parent_window, working_folder, configuration: PhotoboothConfiguration):
         self.raspberry_pi = raspberry_pi
         self.raspberry_pi.camera.init_cam()
         self.raspberry_pi.camera.start_preview()
 
         self.working_folder = working_folder
 
-        self.cloud_upload_enabled = True
-        self.selphy_print_enabled = False
-        self.thermal_print_enabled = True
-        self.thermal_print_image_enabled = True
+        self.photo_mode = configuration.photo_mode
+        self.cloud_upload_enabled = configuration.cloud_upload_enabled
+        self.selphy_print_enabled = configuration.selphy_print_enabled
+        self.thermal_print_enabled = configuration.thermal_print_enabled
+        self.thermal_print_image_enabled = configuration.thermal_print_image_enabled
 
         self.dialog = PhotoboothActivityDialog(activity=self, parent=parent_window)
         self.configuration_dialog = PhotoboothConfigurationDialog(activity=self, parent=parent_window)
@@ -86,18 +96,22 @@ class PhotoboothActivity:
 
         self.dialog.set_title("")
 
-        for seconds_left in range(5, 0, -1):
-            self.dialog.set_message(f"{seconds_left}", 'message-large')
-            time.sleep(1)
-
-        self.dialog.set_title("Click !")
-        self.dialog.set_message("")
-
         if not os.path.isdir(self.working_folder):
             os.mkdir(self.working_folder)
 
-        photo_filepath = os.path.join(self.working_folder, now + '.jpg')
-        self.raspberry_pi.camera.capture(photo_filepath)
+        photo_filepaths = list()
+        photo_count = 1 if self.photo_mode == 'single' else 4
+        for photo_index in range(photo_count):
+            for seconds_left in range(5, 0, -1):
+                self.dialog.set_message(f"{seconds_left}", 'message-large')
+                time.sleep(1)
+
+            self.dialog.set_title("Click !")
+            self.dialog.set_message("")
+
+            photo_filepath = os.path.join(self.working_folder, f"{now}-{photo_index}.jpg")
+            self.raspberry_pi.camera.capture(photo_filepath)
+            photo_filepaths.append(photo_filepath)
 
         self.dialog.set_title(f"Please wait...")
 
@@ -109,7 +123,7 @@ class PhotoboothActivity:
 
         foreground_filepath = os.path.join(self.working_folder, FOREGROUND)
         assembly_filepath = os.path.join(self.working_folder, now + "assembled_" + uid + '.jpg')
-        assemble(photo_filepath, foreground_filepath, assembly_filepath)
+        assemble(photo_filepaths, foreground_filepath, assembly_filepath, self.photo_mode)
 
         if hasattr(os, "sync"):
             os.sync()
