@@ -15,7 +15,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def load_configuration(self) -> PhotoboothConfiguration:
+def load_configuration(photobooth_working_folder) -> PhotoboothConfiguration:
     configuration_dict = {
         'photo-mode': 'single',  # or 'quad'
         'cloud-upload-enabled': True,
@@ -24,7 +24,7 @@ def load_configuration(self) -> PhotoboothConfiguration:
         'thermal-print-image-enabled': True
     }
 
-    configuration_filepath = os.path.join(self._photobooth_working_folder, 'configuration.json')
+    configuration_filepath = os.path.join(photobooth_working_folder, 'configuration.json')
     if os.path.isfile(configuration_filepath):
         with open(configuration_filepath, 'r') as configuration_file:
             configuration_dict.update(json.load(configuration_file))
@@ -49,7 +49,7 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
 
     args = parse_args()
-    configuration = load_configuration()
+    configuration = load_configuration(args.photobooth_working_folder)
 
     if args.mock:
         from photomatron.hardware.mock import Mock
