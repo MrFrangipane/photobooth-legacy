@@ -143,7 +143,7 @@ class Application:
             raspberry_pi=self.raspberry_pi,
             parent_window=self.window,
             working_folder=self._photobooth_working_folder,
-            photo_mode=self.configuration['photo-mode']
+            configuration=self.configuration
         )
         if photobooth.show_configuration_dialog():
             photobooth.exec_()
