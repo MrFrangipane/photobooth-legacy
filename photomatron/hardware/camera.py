@@ -2,7 +2,8 @@ import time
 import picamera
 
 
-CAPTURE_RESOLUTION = 1700, 1130
+CAPTURE_RESOLUTION_SINGLE = 1700, 1130
+CAPTURE_RESOLUTION_QUAD = 2048, 2048
 FRAMERATE = 40
 CAPTURE_SLEEP = .2
 OVER_SATURATION = 0  # 25
@@ -13,17 +14,22 @@ class Camera:
 
     def __init__(self):
         self.camera = None
-        self.init_cam()
+        # self.init_cam()
         self._geometry = 0, 0, 1, 1
 
-    def init_cam(self):
+    def init_cam(self, photo_mode: str):
         try:
             self.camera = picamera.PiCamera()
-            self.camera.resolution = CAPTURE_RESOLUTION
+
+            if photo_mode == 'single':
+                self.camera.resolution = CAPTURE_RESOLUTION_SINGLE
+            else:
+                self.camera.resolution = CAPTURE_RESOLUTION_QUAD
+
             self.camera.framerate = FRAMERATE
             self.camera.hflip = True
 
-            self.camera.awb_mode = 'fluorescent'
+            # self.camera.awb_mode = 'fluorescent'
             self.camera.iso = 0
             self.camera.exposure_mode = 'sports'
 

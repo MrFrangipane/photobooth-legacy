@@ -41,7 +41,7 @@ class PhotoboothActivity:
 
     def __init__(self, app, raspberry_pi, parent_window, working_folder, configuration: PhotoboothConfiguration):
         self.raspberry_pi = raspberry_pi
-        self.raspberry_pi.camera.init_cam()
+        self.raspberry_pi.camera.init_cam(configuration.photo_mode)
         self.raspberry_pi.camera.start_preview()
 
         self.working_folder = working_folder
@@ -102,6 +102,9 @@ class PhotoboothActivity:
         photo_filepaths = list()
         photo_count = 1 if self.photo_mode == 'single' else 4
         for photo_index in range(photo_count):
+            if photo_count > 1:
+                self.dialog.set_title(f"Photo {photo_index + 1}")
+
             for seconds_left in range(5, 0, -1):
                 self.dialog.set_message(f"{seconds_left}", 'message-large')
                 time.sleep(1)
