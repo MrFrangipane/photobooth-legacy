@@ -12,16 +12,16 @@ OVER_BRIGHTNESS = 4  # 8
 
 class Camera:
 
-    def __init__(self):
+    def __init__(self, photo_mode: str):
+        self.photo_mode = photo_mode
         self.camera = None
         # self.init_cam()
         self._geometry = 0, 0, 1, 1
 
-    def init_cam(self, photo_mode: str):
+    def init_cam(self):
         try:
             self.camera = picamera.PiCamera()
-
-            if photo_mode == 'single':
+            if self.photo_mode == 'single':
                 self.camera.resolution = CAPTURE_RESOLUTION_SINGLE
             else:
                 self.camera.resolution = CAPTURE_RESOLUTION_QUAD

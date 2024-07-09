@@ -14,9 +14,9 @@ from . import thermal_printer
 
 class Raspberry(AbstractRaspberry):
 
-    def __init__(self):
+    def __init__(self, photo_mode: str):
         AbstractRaspberry.__init__(self)
-        self.camera = Camera()
+        self.camera = Camera(photo_mode)
         self.buttons = Buttons()
         self.printer = Printer()
 

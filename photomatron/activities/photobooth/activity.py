@@ -41,7 +41,7 @@ class PhotoboothActivity:
 
     def __init__(self, app, raspberry_pi, parent_window, working_folder, configuration: PhotoboothConfiguration):
         self.raspberry_pi = raspberry_pi
-        self.raspberry_pi.camera.init_cam(configuration.photo_mode)
+        self.raspberry_pi.camera.init_cam()
         self.raspberry_pi.camera.start_preview()
 
         self.working_folder = working_folder

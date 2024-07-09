@@ -22,14 +22,14 @@ class Application:
     """
     Main application
     """
-    def __init__(self, raspberry_pi, photobooth_working_folder):
+    def __init__(self, raspberry_pi, photobooth_working_folder, configuration: PhotoboothConfiguration):
         self.raspberry_pi = raspberry_pi
 
         self._install_log_filepath = os.path.expanduser('~/photobooth-updates.log')
 
         self._photobooth_working_folder = photobooth_working_folder
 
-        self.configuration = self.load_configuration()
+        self.configuration = configuration
 
         self._qapp = QtWidgets.QApplication([])
         self.raspberry_pi.post_qapp(self)
@@ -40,35 +40,6 @@ class Application:
         self.status_timer = Timer(interval=2, callback=self.update_status_bar)
 
         self._current_activity = None
-
-    def load_configuration(self) -> PhotoboothConfiguration:
-        configuration_dict = {
-            'photo-mode': 'single',  # or 'quad'
-            'cloud-upload-enabled': True,
-            'selphy-print-enabled': False,
-            'thermal-print-enabled': True,
-            'thermal-print-image-enabled': True
-        }
-
-        configuration_filepath = os.path.join(self._photobooth_working_folder, 'configuration.json')
-        if os.path.isfile(configuration_filepath):
-            with open(configuration_filepath, 'r') as configuration_file:
-                configuration_dict.update(json.load(configuration_file))
-
-        configuration = PhotoboothConfiguration()
-        configuration.photo_mode = configuration_dict['photo-mode']
-        configuration.cloud_upload_enabled = configuration_dict['cloud-upload-enabled']
-        configuration.selphy_print_enabled = configuration_dict['selphy-print-enabled']
-        configuration.thermal_print_enabled = configuration_dict['thermal-print-enabled']
-        configuration.thermal_print_image_enabled = configuration_dict['thermal-print-image-enabled']
-
-        if configuration.photo_mode not in ('single', 'quad'):
-            raise ValueError("Photo mode must be 'single' or 'quad', check config file")
-
-        print("Loaded configuration is")
-        print(json.dumps(configuration_dict, indent=2))
-
-        return configuration
 
     def exec_(self):
         self.window.show()
