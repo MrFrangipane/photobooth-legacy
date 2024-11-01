@@ -60,6 +60,10 @@ class PhotoboothActivity:
 
         self.reset()
 
+        self.assembly_folder = os.path.join(self.working_folder, 'assembled')
+        if not os.path.isdir(self.assembly_folder):
+            os.mkdir(self.assembly_folder)
+
     def reset(self):
         self.capturing = False
         self.dialog.set_title("Photobooth")
@@ -125,7 +129,7 @@ class PhotoboothActivity:
         make_qr_code(data=url, jpg_filepath=qr_code_filepath, draw_logo=False)
 
         foreground_filepath = os.path.join(self.working_folder, FOREGROUND)
-        assembly_filepath = os.path.join(self.working_folder, now + "assembled_" + uid + '.jpg')
+        assembly_filepath = os.path.join(self.assembly_folder, now + "assembled_" + uid + '.jpg')
         assemble(photo_filepaths, foreground_filepath, assembly_filepath, self.photo_mode)
 
         if hasattr(os, "sync"):
