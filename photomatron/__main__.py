@@ -25,14 +25,15 @@ def load_configuration(photobooth_working_folder) -> PhotoboothConfiguration:
         'thermal-print-enabled': True,
         'thermal-print-image-enabled': True
     }
-    configuration_dict = copy(configuration_default)
-
     if not os.path.isfile(configuration_filepath):
         with open(configuration_filepath, 'w') as configuration_file:
             json.dump(configuration_default, configuration_file, indent=2)
+            print("Written default configuration to", configuration_filepath)
 
+    configuration_dict = copy(configuration_default)
     with open(configuration_filepath, 'r') as configuration_file:
         configuration_dict.update(json.load(configuration_file))
+        print("Loaded configuration from", configuration_filepath)
 
     configuration = PhotoboothConfiguration()
     configuration.photo_mode = configuration_dict['photo-mode']
