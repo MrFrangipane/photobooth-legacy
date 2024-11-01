@@ -45,7 +45,7 @@ def load_configuration(photobooth_working_folder) -> PhotoboothConfiguration:
         raise ValueError("Photo mode must be 'single' or 'quad', check config file")
 
     print("Loaded configuration is")
-    print(json.dumps(configuration, indent=2))
+    print(json.dumps(vars(configuration), indent=2))
 
     return configuration
 
