@@ -30,17 +30,16 @@ def load_configuration(photobooth_working_folder) -> PhotoboothConfiguration:
             json.dump(configuration_default, configuration_file, indent=2)
             print("Written default configuration to", configuration_filepath)
 
-    configuration_dict = copy(configuration_default)
     with open(configuration_filepath, 'r') as configuration_file:
-        configuration_dict.update(json.load(configuration_file))
+        loaded_config = json.load(configuration_file)
         print("Loaded configuration from", configuration_filepath)
 
     configuration = PhotoboothConfiguration()
-    configuration.photo_mode = configuration_dict['photo-mode']
-    configuration.cloud_upload_enabled = configuration_dict['cloud-upload-enabled']
-    configuration.selphy_print_enabled = configuration_dict['selphy-print-enabled']
-    configuration.thermal_print_enabled = configuration_dict['thermal-print-enabled']
-    configuration.thermal_print_image_enabled = configuration_dict['thermal-print-image-enabled']
+    configuration.photo_mode = loaded_config['photo-mode']
+    configuration.cloud_upload_enabled = loaded_config['cloud-upload-enabled']
+    configuration.selphy_print_enabled = loaded_config['selphy-print-enabled']
+    configuration.thermal_print_enabled = loaded_config['thermal-print-enabled']
+    configuration.thermal_print_image_enabled = loaded_config['thermal-print-image-enabled']
 
     if configuration.photo_mode not in ('single', 'quad'):
         raise ValueError("Photo mode must be 'single' or 'quad', check config file")
