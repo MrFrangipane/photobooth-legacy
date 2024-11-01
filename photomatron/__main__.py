@@ -2,6 +2,7 @@ import argparse
 import logging
 import os.path
 import json
+from copy import copy
 
 from photomatron.application import Application
 from photomatron.activities.photobooth.activity import PhotoboothConfiguration
@@ -16,18 +17,22 @@ def parse_args():
 
 
 def load_configuration(photobooth_working_folder) -> PhotoboothConfiguration:
-    configuration_dict = {
+    configuration_filepath = os.path.join(photobooth_working_folder, 'configuration.json')
+    configuration_default = {
         'photo-mode': 'single',  # or 'quad'
         'cloud-upload-enabled': True,
         'selphy-print-enabled': False,
         'thermal-print-enabled': True,
         'thermal-print-image-enabled': True
     }
+    configuration_dict = copy(configuration_default)
 
-    configuration_filepath = os.path.join(photobooth_working_folder, 'configuration.json')
-    if os.path.isfile(configuration_filepath):
-        with open(configuration_filepath, 'r') as configuration_file:
-            configuration_dict.update(json.load(configuration_file))
+    if not os.path.isfile(configuration_filepath):
+        with open(configuration_filepath, 'w') as configuration_file:
+            json.dump(configuration_default, configuration_file, indent=2)
+
+    with open(configuration_filepath, 'r') as configuration_file:
+        configuration_dict.update(json.load(configuration_file))
 
     configuration = PhotoboothConfiguration()
     configuration.photo_mode = configuration_dict['photo-mode']
@@ -40,7 +45,7 @@ def load_configuration(photobooth_working_folder) -> PhotoboothConfiguration:
         raise ValueError("Photo mode must be 'single' or 'quad', check config file")
 
     print("Loaded configuration is")
-    print(json.dumps(configuration_dict, indent=2))
+    print(json.dumps(configuration_default, indent=2))
 
     return configuration
 
