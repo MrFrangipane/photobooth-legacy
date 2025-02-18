@@ -212,5 +212,5 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
         painter.end()
 
         jpg = info.temp_output_filepath + ".jpg"
-        assembly.save(jpg, "jpg", 100)
+        final.save(jpg, "jpg", 100)
         # raspberry_pi.thermal_print(jpg)
