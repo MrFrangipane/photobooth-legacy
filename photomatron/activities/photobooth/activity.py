@@ -5,7 +5,7 @@ import secrets
 import string
 from dataclasses import dataclass
 
-from PySide2.QtGui import QPixmap, QTransform
+from PySide2.QtGui import QPixmap, QTransform, QPainter
 from PySide2.QtCore import Qt
 
 from photomatron.hardware.types_ import WifiStatus
@@ -195,11 +195,15 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
         rotate_90 = QTransform()
         rotate_90.rotate(90)
         assembly = assembly.transformed(rotate_90)
-        assembly = assembly.scaledToWidth(384, Qt.SmoothTransformation)
-        assembly.save(info.temp_output_filepath + ".jpg", "jpg", 100)
+        assembly = assembly.scaledToHeight(384, Qt.SmoothTransformation)
+        padded_width = assembly.width() + 20
+        assembly = assembly.scaledToWidth(padded_width + 384, Qt.SmoothTransformation)
 
-        txt = info.temp_output_filepath + ".txt"
-        with open(txt, "w+") as temp_output_file:
-            temp_output_file.write(f"URL: {MANUAL_URL}/{info.uid}\n")
-            temp_output_file.write(f"UID: {info.uid}\n")
-        raspberry_pi.thermal_print(txt)
+        painter = QPainter()
+        painter.begin(assembly)
+        painter.drawPixmap(padded_width, 0, assembly.width(), assembly.height(), QPixmap(info.qr_code_filepath))
+        painter.end()
+
+        jpg = info.temp_output_filepath + ".jpg"
+        assembly.save(jpg, "jpg", 100)
+        raspberry_pi.thermal_print(jpg)
