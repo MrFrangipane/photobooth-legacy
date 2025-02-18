@@ -191,20 +191,23 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
         raspberry_pi.thermal_print(info.qr_code_filepath)
 
     else:
-        assembly = QPixmap(info.assembly_filepath)
+        jpg = info.temp_output_filepath + ".jpg"
+
+        photo = QPixmap(info.assembly_filepath)
+        photo = photo.scaledToHeight(384, Qt.SmoothTransformation)
+        padded_width = photo.width() + 20
+
+        assembly = QPixmap(padded_width + 384, 384)
+        assembly.fill(Qt.red)
+
+        painter = QPainter()
+        painter.begin(assembly)
+        painter.drawPixmap(0, 0, photo)
+        painter.end()
+
         rotate_90 = QTransform()
         rotate_90.rotate(90)
         assembly = assembly.transformed(rotate_90)
-        assembly = assembly.scaledToWidth(384, Qt.SmoothTransformation)
 
-        padded_height = assembly.height() + 20
-        final = QPixmap(384, padded_height + 384)
-        final.fill(Qt.red)
-        painter = QPainter()
-        painter.begin(final)
-        painter.drawPixmap(0, 0, assembly)
-        painter.end()
-
-        jpg = info.temp_output_filepath + ".jpg"
-        final.save(jpg, "jpg", 100)
+        assembly.save(jpg, "jpg", 100)
         # raspberry_pi.thermal_print(jpg)
