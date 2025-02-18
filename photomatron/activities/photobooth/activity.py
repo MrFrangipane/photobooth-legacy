@@ -29,10 +29,10 @@ MANUAL_URL = "photobooth.frangitron.com"
 CLOUD_URL = f"https://{MANUAL_URL}/retrieve"
 CLOUD_CREDENTIALS_FILE = os.path.dirname(__file__) + '/cloud-credentials.json'
 QR_CODE_SIZE = 387
-THERMAL_PADDING = 20
+THERMAL_PADDING = 30
 THERMAL_UID_SIZE = 80
-THERMAL_FONT_URL = 16
-THERMAL_FONT_UID = 32
+THERMAL_FONT_SIZE_URL = 16
+THERMAL_FONT_SIZE_UID = 32
 
 
 class PhotoboothConfiguration:
@@ -215,14 +215,14 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
         painter.translate(padded_width + QR_CODE_SIZE + THERMAL_PADDING, assembly.height())
         painter.rotate(-90)
 
-        font = QFont("Arial", THERMAL_FONT_URL)
+        font = QFont("Arial", THERMAL_FONT_SIZE_URL)
         painter.setFont(font)
-        painter.drawText(0, 0, MANUAL_URL)
+        painter.drawText(THERMAL_PADDING, 0, f"https://{MANUAL_URL}")
 
-        font = QFont("Arial", THERMAL_FONT_UID)
+        font = QFont("Arial", THERMAL_FONT_SIZE_UID)
         font.setBold(True)
         painter.setFont(font)
-        painter.drawText(0, THERMAL_FONT_URL + THERMAL_PADDING, info.uid)
+        painter.drawText(THERMAL_PADDING, THERMAL_FONT_SIZE_URL + THERMAL_PADDING, info.uid)
 
         painter.end()
 
