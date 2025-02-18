@@ -29,7 +29,7 @@ MANUAL_URL = "photobooth.frangitron.com"
 CLOUD_URL = f"https://{MANUAL_URL}/retrieve"
 CLOUD_CREDENTIALS_FILE = os.path.dirname(__file__) + '/cloud-credentials.json'
 QR_CODE_SIZE = 387
-THERMAL_PADDING = 30
+THERMAL_PADDING = 25
 THERMAL_UID_SIZE = 80
 THERMAL_FONT_SIZE_URL = 16
 THERMAL_FONT_SIZE_UID = 32
@@ -231,4 +231,4 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
         assembly = assembly.transformed(rotate_90)
 
         assembly.save(jpg, "jpg", 100)
-        # raspberry_pi.thermal_print(jpg)
+        raspberry_pi.thermal_print(jpg)
