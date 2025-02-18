@@ -205,10 +205,10 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
         )
 
         final = QPixmap(padded_width + 384, assembly.height())
+        final.fill(Qt.red)
         painter = QPainter()
         painter.begin(final)
-        painter.fill(Qt.red)
-        painter.drawPixmap(assembly)
+        painter.drawPixmap(0, 0, assembly)
         painter.end()
 
         jpg = info.temp_output_filepath + ".jpg"
