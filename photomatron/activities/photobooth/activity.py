@@ -203,6 +203,7 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
         painter = QPainter()
         painter.begin(assembly)
         painter.drawPixmap(0, 0, photo)
+        painter.drawPixmap(padded_width, 0, QPixmap(info.qr_code_filepath))
         painter.end()
 
         rotate_90 = QTransform()
