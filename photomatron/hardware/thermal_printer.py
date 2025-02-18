@@ -5,7 +5,7 @@ import subprocess
 def print_(data, double_size=False):
     if os.path.isfile(data):
         subprocess.check_call([
-            "lp", "-o", "orientation-requested=4", "-d", "ThermalPrinter", data
+            "lp", "-o", "media=X48MMY297MM", "-d", "ThermalPrinter", data
         ])
 
     else:
