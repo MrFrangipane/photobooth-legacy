@@ -229,6 +229,7 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
         rotate_90 = QTransform()
         rotate_90.rotate(90)
         assembly = assembly.transformed(rotate_90)
+        assembly = assembly.scaledToHeight(QR_CODE_SIZE, Qt.SmoothTransformation)
 
         assembly.save(jpg, "jpg", 100)
         raspberry_pi.thermal_print(jpg)
