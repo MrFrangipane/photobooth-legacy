@@ -28,6 +28,9 @@ THERMAL_TEMP_FILENAME = "termal-temp"
 MANUAL_URL = "photobooth.frangitron.com"
 CLOUD_URL = f"https://{MANUAL_URL}/retrieve"
 CLOUD_CREDENTIALS_FILE = os.path.dirname(__file__) + '/cloud-credentials.json'
+QR_CODE_SIZE = 387
+THERMAL_PADDING = 20
+THERMAL_UID_SIZE = 60
 
 
 class PhotoboothConfiguration:
@@ -194,16 +197,18 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
         jpg = info.temp_output_filepath + ".jpg"
 
         photo = QPixmap(info.assembly_filepath)
-        photo = photo.scaledToHeight(384, Qt.SmoothTransformation)
-        padded_width = photo.width() + 20
+        photo = photo.scaledToHeight(QR_CODE_SIZE, Qt.SmoothTransformation)
+        padded_width = photo.width() + THERMAL_PADDING
 
-        assembly = QPixmap(padded_width + 384, 384)
+        assembly = QPixmap(padded_width + QR_CODE_SIZE + THERMAL_UID_SIZE, QR_CODE_SIZE)
         assembly.fill(Qt.red)
 
         painter = QPainter()
         painter.begin(assembly)
         painter.drawPixmap(0, 0, photo)
         painter.drawPixmap(padded_width, 0, QPixmap(info.qr_code_filepath))
+        painter.rotate(90)
+        painter.drawText(0, padded_width + QR_CODE_SIZE + THERMAL_PADDING, info.uid)
         painter.end()
 
         rotate_90 = QTransform()
