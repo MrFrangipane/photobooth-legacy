@@ -30,7 +30,7 @@ CLOUD_URL = f"https://{MANUAL_URL}/retrieve"
 CLOUD_CREDENTIALS_FILE = os.path.dirname(__file__) + '/cloud-credentials.json'
 QR_CODE_SIZE = 387
 THERMAL_PADDING = 20
-THERMAL_UID_SIZE = 60
+THERMAL_UID_SIZE = 80
 
 
 class PhotoboothConfiguration:
@@ -210,12 +210,17 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
         painter.drawPixmap(0, 0, photo)
         painter.drawPixmap(padded_width, 0, QPixmap(info.qr_code_filepath))
 
-        painter.translate(padded_width + QR_CODE_SIZE + THERMAL_PADDING, assembly.height())
+        painter.translate(padded_width + QR_CODE_SIZE + THERMAL_PADDING * 2, assembly.height())
         painter.rotate(-90)
 
-        font = QFont("Arial", 32)
+        font = QFont("Arial", 16)
         painter.setFont(font)
-        painter.drawText(0, 0, f"COUCOU {info.uid}")
+        painter.drawText(0, 0, MANUAL_URL)
+        font = QFont("Arial", 32)
+
+        font.setBold(True)
+        painter.setFont(font)
+        painter.drawText(0, 20, info.uid, Qt.AlignCenter | Qt.AlignBottom)
 
         painter.end()
 
