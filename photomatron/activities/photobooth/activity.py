@@ -204,15 +204,11 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
             Qt.SmoothTransformation
         )
 
+        final = QPixmap(padded_width + 384, assembly.height())
         painter = QPainter()
-        painter.begin(assembly)
-        painter.drawPixmap(
-            padded_width,
-            0,
-            assembly.height(),
-            assembly.height(),
-            QPixmap(info.qr_code_filepath)
-        )
+        painter.begin(final)
+        painter.fill(Qt.red)
+        painter.drawPixmap(assembly)
         painter.end()
 
         jpg = info.temp_output_filepath + ".jpg"
