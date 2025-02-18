@@ -5,7 +5,7 @@ import secrets
 import string
 from dataclasses import dataclass
 
-from PySide2.QtGui import QPixmap, QTransform, QPainter
+from PySide2.QtGui import QPixmap, QTransform, QPainter, QFont
 from PySide2.QtCore import Qt
 
 from photomatron.hardware.types_ import WifiStatus
@@ -204,11 +204,19 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
         assembly.fill(Qt.red)
 
         painter = QPainter()
+        painter.setRenderHint(QPainter.Antialiasing)
+        font = QFont("Arial", 16)
+        painter.setFont(font)
+
         painter.begin(assembly)
         painter.drawPixmap(0, 0, photo)
         painter.drawPixmap(padded_width, 0, QPixmap(info.qr_code_filepath))
-        painter.rotate(90)
-        painter.drawText(0, padded_width + QR_CODE_SIZE + THERMAL_PADDING, info.uid)
+
+        painter.translate(padded_width + QR_CODE_SIZE + THERMAL_PADDING, 0)
+        painter.rotate(-90)
+        painter.drawText(0, 0, info.uid)
+        painter.rotate(180)
+        painter.drawText(0, 0, "COUCOU")
         painter.end()
 
         rotate_90 = QTransform()
