@@ -24,7 +24,7 @@ FOREGROUND = 'foreground.png'
 PRINT_TIME_SELPHY = 80
 PRINT_TIME_THERMAL = 35
 QR_CODE_TEMP_FILENAME = "qr-code-temp.jpg"
-THERMAL_TEMP_FILENAME = "termal-temp.jpg"
+THERMAL_TEMP_FILENAME = "termal-temp"
 MANUAL_URL = "photobooth.frangitron.com"
 CLOUD_URL = f"https://{MANUAL_URL}/retrieve"
 CLOUD_CREDENTIALS_FILE = os.path.dirname(__file__) + '/cloud-credentials.json'
@@ -196,7 +196,10 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
         rotate_90.rotate(90)
         assembly = assembly.transformed(rotate_90)
         assembly = assembly.scaledToWidth(384, Qt.SmoothTransformation)
-        assembly.save(info.temp_output_filepath, "jpg", 100)
+        assembly.save(info.temp_output_filepath + ".jpg", "jpg", 100)
 
-        # raspberry_pi.thermal_print(info.temp_output_filepath)
-        raspberry_pi.thermal_print(f"Le Talent du Chill\n{MANUAL_URL}\n{info.uid}")
+        txt = info.temp_output_filepath + ".txt"
+        with open(txt, "w+") as temp_output_file:
+            temp_output_file.write(f"URL: {MANUAL_URL}/{info.uid}\n")
+            temp_output_file.write(f"UID: {info.uid}\n")
+        raspberry_pi.thermal_print(txt)
