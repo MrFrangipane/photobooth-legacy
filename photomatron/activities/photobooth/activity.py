@@ -198,4 +198,5 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
         assembly = assembly.scaledToWidth(384, Qt.SmoothTransformation)
         assembly.save(info.temp_output_filepath, "jpg", 100)
 
-        raspberry_pi.thermal_print(info.temp_output_filepath)
+        # raspberry_pi.thermal_print(info.temp_output_filepath)
+        raspberry_pi.thermal_print(f"Le Talent du Chill\n{MANUAL_URL}\n{info.uid}")
