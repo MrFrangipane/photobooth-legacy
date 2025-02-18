@@ -205,18 +205,18 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
 
         painter = QPainter()
         painter.setRenderHint(QPainter.Antialiasing)
-        font = QFont("Arial", 16)
-        painter.setFont(font)
-
         painter.begin(assembly)
+
         painter.drawPixmap(0, 0, photo)
         painter.drawPixmap(padded_width, 0, QPixmap(info.qr_code_filepath))
 
-        painter.translate(padded_width + QR_CODE_SIZE + THERMAL_PADDING, 0)
-        painter.rotate(-90)
+        painter.translate(padded_width + QR_CODE_SIZE + THERMAL_PADDING, assembly.height())
+        painter.rotate(90)
+
+        font = QFont("Arial", 32)
+        painter.setFont(font)
         painter.drawText(0, 0, info.uid)
-        painter.rotate(180)
-        painter.drawText(0, 0, "COUCOU")
+
         painter.end()
 
         rotate_90 = QTransform()
