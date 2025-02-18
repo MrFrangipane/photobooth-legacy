@@ -216,11 +216,11 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
         font = QFont("Arial", 16)
         painter.setFont(font)
         painter.drawText(0, 0, MANUAL_URL)
-        font = QFont("Arial", 32)
 
+        font = QFont("Arial", 32)
         font.setBold(True)
         painter.setFont(font)
-        painter.drawText(0, 20, info.uid, Qt.AlignCenter | Qt.AlignBottom)
+        painter.drawText(0, 20, info.uid)
 
         painter.end()
 
