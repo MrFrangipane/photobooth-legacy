@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 
 NAME = 'photomatron'
-VERSION = '0.0.143'
+VERSION = '0.0.144'
 DESCRIPTION = 'Photobooth for Raspberry Pi 3'
 AUTHOR = 'Frangitron'
 AUTHOR_EMAIL = 'contact@frangitron.com'

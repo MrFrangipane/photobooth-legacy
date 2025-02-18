@@ -226,9 +226,9 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
 
         painter.end()
 
-        rotate_90 = QTransform()
-        rotate_90.rotate(90)
-        assembly = assembly.transformed(rotate_90)
+        # rotate_90 = QTransform()
+        # rotate_90.rotate(90)
+        # assembly = assembly.transformed(rotate_90)
 
         assembly.save(jpg, "jpg", 100)
         raspberry_pi.thermal_print(jpg)
