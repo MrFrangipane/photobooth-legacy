@@ -195,16 +195,10 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
         rotate_90 = QTransform()
         rotate_90.rotate(90)
         assembly = assembly.transformed(rotate_90)
-        assembly = assembly.scaledToHeight(384, Qt.SmoothTransformation)
-        padded_width = assembly.width() + 20
-        assembly = assembly.scaled(
-            padded_width + 384,
-            assembly.height(),
-            Qt.KeepAspectRatio,
-            Qt.SmoothTransformation
-        )
+        assembly = assembly.scaledToWidth(384, Qt.SmoothTransformation)
 
-        final = QPixmap(padded_width + 384, assembly.height())
+        padded_height = assembly.height() + 20
+        final = QPixmap(384, padded_height + 384)
         final.fill(Qt.red)
         painter = QPainter()
         painter.begin(final)
