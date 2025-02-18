@@ -31,6 +31,8 @@ CLOUD_CREDENTIALS_FILE = os.path.dirname(__file__) + '/cloud-credentials.json'
 QR_CODE_SIZE = 387
 THERMAL_PADDING = 20
 THERMAL_UID_SIZE = 80
+THERMAL_FONT_URL = 16
+THERMAL_FONT_UID = 32
 
 
 class PhotoboothConfiguration:
@@ -201,7 +203,7 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
         padded_width = photo.width() + THERMAL_PADDING
 
         assembly = QPixmap(padded_width + QR_CODE_SIZE + THERMAL_UID_SIZE, QR_CODE_SIZE)
-        assembly.fill(Qt.red)
+        assembly.fill(Qt.white)
 
         painter = QPainter()
         painter.setRenderHint(QPainter.Antialiasing)
@@ -210,17 +212,17 @@ def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
         painter.drawPixmap(0, 0, photo)
         painter.drawPixmap(padded_width, 0, QPixmap(info.qr_code_filepath))
 
-        painter.translate(padded_width + QR_CODE_SIZE + THERMAL_PADDING * 2, assembly.height())
+        painter.translate(padded_width + QR_CODE_SIZE + THERMAL_PADDING, assembly.height())
         painter.rotate(-90)
 
-        font = QFont("Arial", 16)
+        font = QFont("Arial", THERMAL_FONT_URL)
         painter.setFont(font)
         painter.drawText(0, 0, MANUAL_URL)
 
-        font = QFont("Arial", 32)
+        font = QFont("Arial", THERMAL_FONT_UID)
         font.setBold(True)
         painter.setFont(font)
-        painter.drawText(0, 20, info.uid)
+        painter.drawText(0, THERMAL_FONT_URL + THERMAL_PADDING, info.uid)
 
         painter.end()
 
