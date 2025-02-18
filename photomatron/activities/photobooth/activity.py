@@ -3,11 +3,13 @@ import os.path
 import time
 import secrets
 import string
+from dataclasses import dataclass
 
 from PySide2.QtGui import QPixmap, QTransform
 from PySide2.QtCore import Qt
 
 from photomatron.hardware.types_ import WifiStatus
+from photomatron.hardware.raspberry import AbstractRaspberry
 
 from .activity_dialog import PhotoboothActivityDialog
 from .configuration_dialog import PhotoboothConfigurationDialog
@@ -35,6 +37,15 @@ class PhotoboothConfiguration:
         self.selphy_print_enabled = None
         self.thermal_print_enabled = None
         self.thermal_print_image_enabled = None
+
+
+@dataclass
+class ThermalPrintInfo:
+    qr_code_filepath: str
+    assembly_filepath: str
+    temp_output_filepath: str
+    uid: str
+    is_print_image_enabled: bool
 
 
 class PhotoboothActivity:
@@ -156,25 +167,13 @@ class PhotoboothActivity:
             else:
                 self.dialog.set_title(f"Please wait...")
 
-            self.raspberry_pi.thermal_print(os.path.join(self.working_folder, QR_CODE_TEMP_FILENAME))
-            # self.raspberry_pi.thermal_print(1)
-            # self.raspberry_pi.thermal_print(uid, double_size=True)
-            # self.raspberry_pi.thermal_print(MANUAL_URL)
-            # self.raspberry_pi.thermal_print(1)
-
-            if self.thermal_print_image_enabled:
-                assembly = QPixmap(assembly_filepath)
-                rotate_90 = QTransform()
-                rotate_90.rotate(90)
-                assembly = assembly.transformed(rotate_90)
-                assembly = assembly.scaledToWidth(384, Qt.SmoothTransformation)
-                assembly.save(os.path.join(self.working_folder, THERMAL_TEMP_FILENAME), "jpg", 100)
-
-                self.raspberry_pi.thermal_print(os.path.join(self.working_folder, THERMAL_TEMP_FILENAME))
-            #
-            # self.raspberry_pi.thermal_print(2)
-            # self.raspberry_pi.thermal_print("by Frangitron")
-            # self.raspberry_pi.thermal_print(4)
+            thermal_print(self.raspberry_pi, ThermalPrintInfo(
+                qr_code_filepath=os.path.join(self.working_folder, QR_CODE_TEMP_FILENAME),
+                assembly_filepath=assembly_filepath,
+                temp_output_filepath=os.path.join(self.working_folder, THERMAL_TEMP_FILENAME),
+                uid=uid,
+                is_print_image_enabled=self.thermal_print_image_enabled
+            ))
 
         if self.selphy_print_enabled or self.thermal_print_enabled:
             time_left = print_time - int(time.time() - print_start_timestamp)
@@ -185,3 +184,18 @@ class PhotoboothActivity:
                     time.sleep(1)
 
         self.reset()
+
+
+def thermal_print(raspberry_pi: AbstractRaspberry, info: ThermalPrintInfo):
+    if not info.is_print_image_enabled:
+        raspberry_pi.thermal_print(info.qr_code_filepath)
+
+    else:
+        assembly = QPixmap(info.assembly_filepath)
+        rotate_90 = QTransform()
+        rotate_90.rotate(90)
+        assembly = assembly.transformed(rotate_90)
+        assembly = assembly.scaledToWidth(384, Qt.SmoothTransformation)
+        assembly.save(info.temp_output_filepath, "jpg", 100)
+
+        raspberry_pi.thermal_print(assembly)
