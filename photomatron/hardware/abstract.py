@@ -32,3 +32,6 @@ class AbstractRaspberry:
     def post_qapp(self, app):
         """app is the Application, not the QApplication"""
         raise NotImplementedError
+
+    def empty_print_queue(self):
+        raise NotImplementedError

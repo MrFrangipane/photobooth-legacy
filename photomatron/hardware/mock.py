@@ -108,3 +108,6 @@ class Mock(AbstractRaspberry):
 
     def renew_dhcp(self):
         print("Mock renew DHCP")
+
+    def empty_print_queue(self):
+        print("Mock empty print queue")

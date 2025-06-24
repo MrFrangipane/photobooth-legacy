@@ -94,6 +94,9 @@ class Application:
     def show_log(self):
         subprocess.call(["xdg-open", self._install_log_filepath])
 
+    def empty_print_queue(self):
+        self.raspberry_pi.empty_print_queue()
+
     #
     ##
     def activity_timelapse(self):

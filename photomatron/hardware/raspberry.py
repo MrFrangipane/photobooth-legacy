@@ -75,3 +75,6 @@ class Raspberry(AbstractRaspberry):
 
     def renew_dhcp(self):
         subprocess.call(['sudo', 'systemctl', 'restart', 'dhcpcd'])
+
+    def empty_print_queue(self):
+        subprocess.call(['cancel', '-a', '-x'])

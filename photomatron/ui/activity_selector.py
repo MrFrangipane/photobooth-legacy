@@ -75,3 +75,8 @@ class ActivitySelector(QtWidgets.QWidget):
         set_style_property(self.button_show_log, 'medium')
         self.button_show_log.clicked.connect(app.show_log)
         layout_system.addWidget(self.button_show_log)
+
+        self.button_empty_print_queue = QtWidgets.QPushButton("Empty print queue")
+        set_style_property(self.button_empty_print_queue, 'medium')
+        self.button_empty_print_queue.clicked.connect(app.empty_print_queue)
+        layout_system.addWidget(self.button_empty_print_queue)
